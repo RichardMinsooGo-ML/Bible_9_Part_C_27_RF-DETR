@@ -24,7 +24,7 @@ import torch
 import torch.utils.data
 import torchvision
 
-import rfdetr.datasets.transforms as T
+import datasets.transforms as T
 
 
 def compute_multi_scale_scales(resolution, expanded_scales=False, patch_size=16, num_windows=4):
