@@ -23,7 +23,7 @@ try:
 except:
     pass
 
-from rfdetr.config import (
+from config import (
     RFDETRBaseConfig,
     RFDETRLargeConfig,
     RFDETRNanoConfig,
@@ -32,9 +32,9 @@ from rfdetr.config import (
     TrainConfig,
     ModelConfig
 )
-from rfdetr.main import Model, download_pretrain_weights
-from rfdetr.util.metrics import MetricsPlotSink, MetricsTensorBoardSink, MetricsWandBSink
-from rfdetr.util.coco_classes import COCO_CLASSES
+from main import Model, download_pretrain_weights
+from util.metrics import MetricsPlotSink, MetricsTensorBoardSink, MetricsWandBSink
+from util.coco_classes import COCO_CLASSES
 
 logger = getLogger(__name__)
 class RFDETR:
@@ -174,7 +174,7 @@ class RFDETR:
             self.callbacks["on_train_end"].append(metrics_wandb_sink.close)
 
         if config.early_stopping:
-            from rfdetr.util.early_stopping import EarlyStoppingCallback
+            from util.early_stopping import EarlyStoppingCallback
             early_stopping_callback = EarlyStoppingCallback(
                 model=self.model,
                 patience=config.early_stopping_patience,

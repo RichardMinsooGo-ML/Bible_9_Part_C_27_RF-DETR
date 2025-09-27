@@ -26,9 +26,9 @@ import random
 import torch
 import torch.nn.functional as F
 
-import rfdetr.util.misc as utils
-from rfdetr.datasets.coco_eval import CocoEvaluator
-from rfdetr.datasets.coco import compute_multi_scale_scales
+import util.misc as utils
+from datasets.coco_eval import CocoEvaluator
+from datasets.coco import compute_multi_scale_scales
 
 try:
     from torch.amp import autocast, GradScaler
@@ -37,7 +37,7 @@ except ImportError:
     from torch.cuda.amp import autocast, GradScaler
     DEPRECATED_AMP = True
 from typing import DefaultDict, List, Callable
-from rfdetr.util.misc import NestedTensor
+from util.misc import NestedTensor
 import numpy as np
 
 def get_autocast_args(args):
