@@ -10,7 +10,7 @@
 import argparse
 from rf100vl import get_rf100vl_projects
 import roboflow
-from rfdetr import RFDETRBase
+import RFDETRBase
 import torch
 import os
 
