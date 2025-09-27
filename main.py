@@ -565,91 +565,6 @@ class Model:
         
         print("ONNX export completed successfully")
         self.model = self.model.to(device)
-            
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser('LWDETR training and evaluation script', parents=[get_args_parser()])
-    args = parser.parse_args()
-
-    if args.output_dir:
-        Path(args.output_dir).mkdir(parents=True, exist_ok=True)
-    
-    config = vars(args)  # Convert Namespace to dictionary
-    
-    if args.subcommand == 'distill':
-        distill(**config)   
-    elif args.subcommand is None:
-        main(**config)
-    elif args.subcommand == 'export_model':
-        filter_keys = [
-            "num_classes",
-            "grad_accum_steps",
-            "lr",
-            "lr_encoder",
-            "weight_decay",
-            "epochs",
-            "lr_drop",
-            "clip_max_norm",
-            "lr_vit_layer_decay",
-            "lr_component_decay",
-            "dropout",
-            "drop_path",
-            "drop_mode",
-            "drop_schedule",
-            "cutoff_epoch",
-            "pretrained_encoder",
-            "pretrain_weights",
-            "pretrain_exclude_keys",
-            "pretrain_keys_modify_to_load",
-            "freeze_florence",
-            "freeze_aimv2",
-            "decoder_norm",
-            "set_cost_class",
-            "set_cost_bbox",
-            "set_cost_giou",
-            "cls_loss_coef",
-            "bbox_loss_coef",
-            "giou_loss_coef",
-            "focal_alpha",
-            "aux_loss",
-            "sum_group_losses",
-            "use_varifocal_loss",
-            "use_position_supervised_loss",
-            "ia_bce_loss",
-            "dataset_file",
-            "coco_path",
-            "dataset_dir",
-            "square_resize_div_64",
-            "output_dir",
-            "checkpoint_interval",
-            "seed",
-            "resume",
-            "start_epoch",
-            "eval",
-            "use_ema",
-            "ema_decay",
-            "ema_tau",
-            "num_workers",
-            "device",
-            "world_size",
-            "dist_url",
-            "sync_bn",
-            "fp16_eval",
-            "infer_dir",
-            "verbose",
-            "opset_version",
-            "dry_run",
-            "shape",
-        ]
-        for key in filter_keys:
-            config.pop(key, None)  # Use pop with None to avoid KeyError
-            
-        from deploy.export import main as export_main
-        if args.batch_size != 1:
-            config['batch_size'] = 1
-            print(f"Only batch_size 1 is supported for onnx export, \
-                 but got batchsize = {args.batch_size}. batch_size is forcibly set to 1.")
-        export_main(**config)
 
 def get_args_parser():
     parser = argparse.ArgumentParser('Set transformer detector', add_help=False)
@@ -1059,3 +974,89 @@ def populate_args(
         **extra_kwargs
     )
     return args
+
+            
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser('LWDETR training and evaluation script', parents=[get_args_parser()])
+    args = parser.parse_args()
+
+    if args.output_dir:
+        Path(args.output_dir).mkdir(parents=True, exist_ok=True)
+    
+    config = vars(args)  # Convert Namespace to dictionary
+    
+    if args.subcommand == 'distill':
+        distill(**config)   
+    elif args.subcommand is None:
+        main(**config)
+    elif args.subcommand == 'export_model':
+        filter_keys = [
+            "num_classes",
+            "grad_accum_steps",
+            "lr",
+            "lr_encoder",
+            "weight_decay",
+            "epochs",
+            "lr_drop",
+            "clip_max_norm",
+            "lr_vit_layer_decay",
+            "lr_component_decay",
+            "dropout",
+            "drop_path",
+            "drop_mode",
+            "drop_schedule",
+            "cutoff_epoch",
+            "pretrained_encoder",
+            "pretrain_weights",
+            "pretrain_exclude_keys",
+            "pretrain_keys_modify_to_load",
+            "freeze_florence",
+            "freeze_aimv2",
+            "decoder_norm",
+            "set_cost_class",
+            "set_cost_bbox",
+            "set_cost_giou",
+            "cls_loss_coef",
+            "bbox_loss_coef",
+            "giou_loss_coef",
+            "focal_alpha",
+            "aux_loss",
+            "sum_group_losses",
+            "use_varifocal_loss",
+            "use_position_supervised_loss",
+            "ia_bce_loss",
+            "dataset_file",
+            "coco_path",
+            "dataset_dir",
+            "square_resize_div_64",
+            "output_dir",
+            "checkpoint_interval",
+            "seed",
+            "resume",
+            "start_epoch",
+            "eval",
+            "use_ema",
+            "ema_decay",
+            "ema_tau",
+            "num_workers",
+            "device",
+            "world_size",
+            "dist_url",
+            "sync_bn",
+            "fp16_eval",
+            "infer_dir",
+            "verbose",
+            "opset_version",
+            "dry_run",
+            "shape",
+        ]
+        for key in filter_keys:
+            config.pop(key, None)  # Use pop with None to avoid KeyError
+            
+        from deploy.export import main as export_main
+        if args.batch_size != 1:
+            config['batch_size'] = 1
+            print(f"Only batch_size 1 is supported for onnx export, \
+                 but got batchsize = {args.batch_size}. batch_size is forcibly set to 1.")
+        export_main(**config)
